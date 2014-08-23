@@ -5,25 +5,26 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.widget.Button;
-//import com.ligatus.android.adframework.LigAdView;
+import com.wagner.android.gesturelib.DummyLib;
 
+/**
+ * This is the HelloAndoridActivity for presenting first Android App Content.
+ * <p/>
+ * @author of last revision $Author: swagner $
+ * @version $Revision: 1.0 $ $Date: 2014/08/16 $
+ */
 public class HelloAndroidActivity extends Activity
 {
 
-   private static final String TAG = "LigTestApp HelloAndroidActivity";
-   //44339
-   private int placementId = 20326;
+   private static final String TAG = "HelloAndroidActivity";
 
-   private static String PLACEMENT_BUNDLE_KEY = "PLACEMENT_ID";
+   private static final String SAVED_INSTANCE_SOME_KEY = "SOME_KEY";
 
-   /**
-    * testplacement: http://d.ligatus.com/?ids=20326 mobil: http://d.ligatus.com/?ids=44339 [21.11.2013 11:26:39]
-    * Ligatus/Dirk Malorny: franzosenplacement: http://a.ligatus.com/?ids=47893
-    */
+   private Integer savedInstance;
 
    public HelloAndroidActivity()
    {
-      Log.d(TAG, "call constructor" + placementId);
+      Log.d(TAG, "call constructor");
 
    }
 
@@ -38,9 +39,9 @@ public class HelloAndroidActivity extends Activity
    {
       super.onCreate(savedInstanceState);
 
-      if(savedInstanceState!=null && savedInstanceState.containsKey(PLACEMENT_BUNDLE_KEY))
+      if(savedInstanceState!=null && savedInstanceState.containsKey(SAVED_INSTANCE_SOME_KEY))
       {
-         placementId = savedInstanceState.getInt(PLACEMENT_BUNDLE_KEY);
+         savedInstance = savedInstanceState.getInt(SAVED_INSTANCE_SOME_KEY);
       }
 
       setContentView(R.layout.activity_main);
@@ -48,25 +49,19 @@ public class HelloAndroidActivity extends Activity
       final Button button = (Button)findViewById(R.id.refreshButton);
       button.setText("Refresh");
       button.setOnClickListener(new OnClickHandler(this));
-      Log.d(TAG, "onCreate called" + placementId);
+      Log.d(TAG, "onCreate called" );
 
-      createLigAdView(placementId);
+      final DummyLib gestureLib = new DummyLib();
+      gestureLib.callDummyLib("This is the call Message for GestureLib");
    }
 
-   protected void createLigAdView(int aPlacementId)
-   {
-      placementId = aPlacementId;
-
-      //final LigAdView ligAdView = (LigAdView)findViewById(R.id.ligAdView);
-      //ligAdView.fillLigAdView(this, placementId);
-   }
 
    @Override
    protected void onSaveInstanceState(Bundle outState)
    {
       super.onSaveInstanceState(outState);
-      Log.d(TAG, "onSaveInstanceState" + placementId);
-      outState.putInt(PLACEMENT_BUNDLE_KEY, placementId);
+      Log.d(TAG, "onSaveInstanceState" + savedInstance);
+      outState.putInt(SAVED_INSTANCE_SOME_KEY, savedInstance);
    }
 
    @Override

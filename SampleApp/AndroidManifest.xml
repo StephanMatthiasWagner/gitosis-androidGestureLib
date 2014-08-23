@@ -11,7 +11,7 @@
     <application
         android:debuggable="true"
         android:allowBackup="true"
-        android:icon="@drawable/ligapp"
+        android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
 
         android:theme="@style/AppTheme">
@@ -22,9 +22,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-       <!--activity android:name="com.ligatus.android.adframework.LigAdBrowser" android:configChanges="orientation|keyboardHidden|screenSize">
-
-       </activity-->
     </application>
 
 </manifest>

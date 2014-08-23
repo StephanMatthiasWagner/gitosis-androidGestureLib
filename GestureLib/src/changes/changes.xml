@@ -1,0 +1,26 @@
+<document xmlns="http://maven.apache.org/changes/1.0.0"
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:schemaLocation="http://maven.apache.org/changes/1.0.0 http://maven.apache.org/xsd/changes-1.0.0.xsd">
+   <properties>
+      <title>GestureLib</title>
+      <author email="stephan.wagner.mi738@gmail.com">Stephan Wagner</author>
+   </properties>
+   <body>
+
+      <!--
+      <release version="version" date="date" description="description">
+         <action dev="developer" type="fix|add|update">
+            description
+            <fixes issue="jira_issue"/>
+         </action>
+      </release>
+      -->
+
+      <release version="1.0.0.0" date="2014-08-20" description="First Draft containing Projectstructure!">
+         <action dev="swagner" type="add">
+            First Draft containing Projectstructure
+         </action>
+      </release>
+
+   </body>
+</document>

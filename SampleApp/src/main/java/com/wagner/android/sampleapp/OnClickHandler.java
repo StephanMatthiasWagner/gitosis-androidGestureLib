@@ -2,6 +2,8 @@ package com.wagner.android.sampleapp;
 
 import android.view.View;
 import android.widget.EditText;
+import android.widget.TextView;
+import com.wagner.android.gesturelib.DummyLib;
 
 /**
  * This is the ClickHandler for controlling Click events.
@@ -24,5 +26,8 @@ public class OnClickHandler implements View.OnClickListener
    public void onClick(final View aView)
    {
       final EditText editText = (EditText)activity.findViewById(R.id.edit_message);
+      final TextView outputField = (TextView)activity.findViewById(R.id.textView);
+      outputField.setText(new DummyLib().callDummyLib(editText.getText()));
+
    }
 }

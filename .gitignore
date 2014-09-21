@@ -1,6 +1,7 @@
-/*.iws
-/*.ids
-/*.ipr
-/*.idea
+*.iws
+*.ids
+*.ipr
+*.idea
 *.iml
+/GestureLib/*.iml
 target

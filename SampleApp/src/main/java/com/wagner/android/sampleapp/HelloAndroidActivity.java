@@ -4,9 +4,12 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
+import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import com.wagner.android.gesturelib.DummyLib;
+import com.wagner.android.gesturelib.DummyLibView;
 
 /**
  * This is the HelloAndoridActivity for presenting first Android App Content.
@@ -57,11 +60,18 @@ public class HelloAndroidActivity extends Activity
       final TextView textView = (TextView) findViewById(R.id.textView);
       textView.setText(savedInstance);
 
+       final ViewGroup viewGroup = (ViewGroup) ((ViewGroup) this
+               .findViewById(android.R.id.content)).getChildAt(0);
+
+      final DummyLibView dummyLibView = new DummyLibView(viewGroup);
+       dummyLibView.addDummyTextView(R.id.refreshButton);
 
       Log.d(TAG, "onCreate called" );
 
       final DummyLib gestureLib = new DummyLib();
       gestureLib.callDummyLib("This is the call Message for GestureLib");
+
+
    }
 
 

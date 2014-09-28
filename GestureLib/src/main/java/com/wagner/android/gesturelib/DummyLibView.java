@@ -28,16 +28,19 @@ public class DummyLibView {
 
     /**
      * The default constructor.
-     * @param aViewGroup the linearLayout.
      */
-    public DummyLibView(final ViewGroup aViewGroup)
+    public DummyLibView()
     {
         Log.d(TAG, "call constructor");
-        viewGroup = aViewGroup;
     }
 
-    public void addDummyTextView(final int below_id){
-        final TextView textView = new TextView(viewGroup.getContext());
+   /**
+    * Adds a TextView to the given viewGroup
+    * @param aViewGroup collector Object that holds the context and the view tree.
+    * @param below_id id of the view object that should be above the added textView.
+    */
+    public void addDummyTextView(final ViewGroup aViewGroup, final int below_id){
+        final TextView textView = new TextView(aViewGroup.getContext());
         textView.setText("This text view was added to the context by DummyLib: DummyLibTextView");
 
         RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,
@@ -46,9 +49,8 @@ public class DummyLibView {
         params.addRule(RelativeLayout.BELOW, below_id);
         textView.setLayoutParams(params);
 
-        viewGroup.addView(textView);
+       aViewGroup.addView(textView);
     }
-
 
     /**
      * Called when the activity is first created.

@@ -5,3 +5,4 @@
 *.iml
 /GestureLib/*.iml
 target
+*.~lock*

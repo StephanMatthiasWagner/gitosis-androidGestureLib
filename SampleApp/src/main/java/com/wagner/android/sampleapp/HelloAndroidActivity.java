@@ -1,9 +1,14 @@
 package com.wagner.android.sampleapp;
 
 import android.app.Activity;
+import android.content.Context;
+import android.graphics.Canvas;
+import android.graphics.PointF;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
@@ -53,9 +58,18 @@ public class HelloAndroidActivity extends Activity
 
       setContentView(R.layout.activity_main);
 
+       LayoutInflater inflater = getLayoutInflater();
+       final View l  = (View) findViewById(android.R.id.content);
+
       final Button button = (Button)findViewById(R.id.refreshButton);
       button.setText("Refresh");
-      button.setOnClickListener(new OnClickHandler(this));
+       button.setOnClickListener(new View.OnClickListener() {
+
+           @Override
+           public void onClick(View v) {
+               zoom(l, 2f, 2f, new PointF(0, 0));
+           }
+       });
 
       final TextView textView = (TextView) findViewById(R.id.textView);
       textView.setText(savedInstance);
@@ -63,8 +77,9 @@ public class HelloAndroidActivity extends Activity
        final ViewGroup viewGroup = (ViewGroup) ((ViewGroup) this
                .findViewById(android.R.id.content)).getChildAt(0);
 
-      final DummyLibView dummyLibView = new DummyLibView(viewGroup);
-       dummyLibView.addDummyTextView(R.id.refreshButton);
+
+      final DummyLibView dummyLibView = new DummyLibView();
+       dummyLibView.addDummyTextView(viewGroup, R.id.refreshButton);
 
       Log.d(TAG, "onCreate called" );
 
@@ -74,6 +89,15 @@ public class HelloAndroidActivity extends Activity
 
    }
 
+
+    /** zooming is done from here */
+    public void zoom(View layout, Float scaleX,Float scaleY,PointF pivot){
+        Log.d(TAG, "zoom called" );
+        layout.setPivotX(pivot.x);
+        layout.setPivotY(pivot.y);
+        layout.setScaleX(scaleX);
+        layout.setScaleY(scaleY);
+    }
 
     public void setTextMessage(final String aTextMessage)
     {

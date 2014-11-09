@@ -1,0 +1,55 @@
+11-06 22:09:28.685: DEBUG/Touch(25063): mode=DRAG
+11-06 22:09:28.713: DEBUG/Touch(25063): initDist = 106.6288071510318 newDist = 106.6288071510318
+11-06 22:09:28.714: DEBUG/Touch(25063): Factor Zoom = 1.0
+11-06 22:09:28.727: DEBUG/Touch(25063): initDist = 106.6288071510318 newDist = 106.6288071510318
+11-06 22:09:28.727: DEBUG/Touch(25063): Factor Zoom = 1.0
+11-06 22:09:28.743: DEBUG/Touch(25063): initDist = 106.6288071510318 newDist = 106.6288071510318
+11-06 22:09:28.743: DEBUG/Touch(25063): Factor Zoom = 1.0
+11-06 22:09:28.760: DEBUG/Touch(25063): initDist = 106.6288071510318 newDist = 106.6288071510318
+11-06 22:09:28.760: DEBUG/Touch(25063): Factor Zoom = 1.0
+11-06 22:09:28.777: DEBUG/Touch(25063): initDist = 106.6288071510318 newDist = 117.8852565603062
+11-06 22:09:28.777: DEBUG/Touch(25063): Factor Zoom = 1.1055667
+11-06 22:09:28.791: INFO/BufferQueue(129): [com.wagner.android.sampleapp/com.wagner.android.sampleapp.Touch](this:0x41f7c008,api:1) [queue] fps:0.20, dur:5099.73, max:5099.73, min:5099.73
+11-06 22:09:28.793: INFO/SurfaceTexture(129): [com.wagner.android.sampleapp/com.wagner.android.sampleapp.Touch](this:0x41f7a268,api:1) [void* android::SurfaceTexture::createImage(EGLDisplay, const android::sp<android::GraphicBuffer>&)]
+11-06 22:09:28.794: INFO/BufferQueue(129): [com.wagner.android.sampleapp/com.wagner.android.sampleapp.Touch](this:0x41f7c008,api:1) new GraphicBuffer needed
+11-06 22:09:28.812: DEBUG/Touch(25063): initDist = 106.6288071510318 newDist = 118.8872545432698
+11-06 22:09:28.813: DEBUG/Touch(25063): Factor Zoom = 1.1149638
+11-06 22:09:28.816: INFO/BufferQueue(129): [com.wagner.android.sampleapp/com.wagner.android.sampleapp.Touch](this:0x41f7c008,api:1) new GraphicBuffer needed
+11-06 22:09:28.826: INFO/SurfaceTexture(129): [com.wagner.android.sampleapp/com.wagner.android.sampleapp.Touch](this:0x41f7a268,api:1) [void* android::SurfaceTexture::createImage(EGLDisplay, const android::sp<android::GraphicBuffer>&)]
+11-06 22:09:28.830: DEBUG/Touch(25063): initDist = 106.6288071510318 newDist = 123.86923968487444
+11-06 22:09:28.830: DEBUG/Touch(25063): Factor Zoom = 1.1616864
+11-06 22:09:28.843: INFO/SurfaceTexture(129): [com.wagner.android.sampleapp/com.wagner.android.sampleapp.Touch](this:0x41f7a268,api:1) [void* android::SurfaceTexture::createImage(EGLDisplay, const android::sp<android::GraphicBuffer>&)]
+11-06 22:09:28.846: DEBUG/Touch(25063): initDist = 106.6288071510318 newDist = 132.6507974635849
+11-06 22:09:28.846: DEBUG/Touch(25063): Factor Zoom = 1.2440428
+11-06 22:09:28.861: DEBUG/Touch(25063): initDist = 106.6288071510318 newDist = 131.22977835260275
+11-06 22:09:28.861: DEBUG/Touch(25063): Factor Zoom = 1.230716
+11-06 22:09:28.877: DEBUG/Touch(25063): initDist = 106.6288071510318 newDist = 139.35726449667862
+11-06 22:09:28.877: DEBUG/Touch(25063): Factor Zoom = 1.3069382
+11-06 22:09:28.894: DEBUG/Touch(25063): initDist = 106.6288071510318 newDist = 137.44281194295877
+11-06 22:09:28.894: DEBUG/Touch(25063): Factor Zoom = 1.2889838
+11-06 22:09:28.911: DEBUG/Touch(25063): initDist = 106.6288071510318 newDist = 146.46241498818864
+11-06 22:09:28.912: DEBUG/Touch(25063): Factor Zoom = 1.3735727
+11-06 22:09:28.928: DEBUG/Touch(25063): initDist = 106.6288071510318 newDist = 144.36125417458462
+11-06 22:09:28.928: DEBUG/Touch(25063): Factor Zoom = 1.3538673
+11-06 22:09:28.946: DEBUG/Touch(25063): initDist = 106.6288071510318 newDist = 150.7859901713147
+11-06 22:09:28.946: DEBUG/Touch(25063): Factor Zoom = 1.4141206
+11-06 22:09:28.963: DEBUG/Touch(25063): initDist = 106.6288071510318 newDist = 148.17552910543185
+11-06 22:09:28.963: DEBUG/Touch(25063): Factor Zoom = 1.3896388
+11-06 22:09:28.979: DEBUG/Touch(25063): initDist = 106.6288071510318 newDist = 155.3743657391259
+11-06 22:09:28.979: DEBUG/Touch(25063): Factor Zoom = 1.4571519
+11-06 22:09:28.996: DEBUG/Touch(25063): initDist = 106.6288071510318 newDist = 151.38199079894628
+11-06 22:09:28.996: DEBUG/Touch(25063): Factor Zoom = 1.41971
+11-06 22:09:29.012: DEBUG/Touch(25063): initDist = 106.6288071510318 newDist = 158.61824629584365
+11-06 22:09:29.012: DEBUG/Touch(25063): Factor Zoom = 1.4875741
+11-06 22:09:29.030: DEBUG/Touch(25063): initDist = 106.6288071510318 newDist = 155.16832325273862
+11-06 22:09:29.030: DEBUG/Touch(25063): Factor Zoom = 1.4552195
+11-06 22:09:29.046: DEBUG/Touch(25063): initDist = 106.6288071510318 newDist = 162.48865218385802
+11-06 22:09:29.047: DEBUG/Touch(25063): Factor Zoom = 1.523872
+11-06 22:09:29.065: DEBUG/Touch(25063): initDist = 106.6288071510318 newDist = 158.9332116547938
+11-06 22:09:29.065: DEBUG/Touch(25063): Factor Zoom = 1.4905279
+11-06 22:09:29.079: DEBUG/Touch(25063): initDist = 106.6288071510318 newDist = 165.09026864596495
+11-06 22:09:29.080: DEBUG/Touch(25063): Factor Zoom = 1.5482708
+11-06 22:09:29.096: DEBUG/Touch(25063): initDist = 106.6288071510318 newDist = 163.91685833218904
+11-06 22:09:29.096: DEBUG/Touch(25063): Factor Zoom = 1.5372661
+11-06 22:09:29.101: DEBUG/Touch(25063): initDist = 106.6288071510318 newDist = 165.3822340150439
+11-06 22:09:29.101: DEBUG/Touch(25063): Factor Zoom = 1.5510089

@@ -33,7 +33,7 @@ import android.widget.TextView;
  */
 
 
-public class Touch extends Activity implements OnTouchListener, ScaleGestureDetector.OnScaleGestureListener {
+public class Touch extends Activity implements OnTouchListener {
     private static final String TAG = "Touch";
 
     // These matrices will be used to move and zoom image
@@ -48,8 +48,11 @@ public class Touch extends Activity implements OnTouchListener, ScaleGestureDete
 
     // Remember some things for zooming
     PointF start = new PointF();
-    PointF mid = new PointF();
+    //PointF mid = new PointF();
     float oldDist = 0f;
+    GestureDecoder gestureDecoder;
+    ScaleGestureDetector scaleGestureDetector;
+    View mainView;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -68,18 +71,29 @@ public class Touch extends Activity implements OnTouchListener, ScaleGestureDete
 
         viewGroup.setOnTouchListener(this);
       */
-        final View mainView  = findViewById(android.R.id.content);
+        mainView  = findViewById(android.R.id.content);
+
+        Log.d(TAG, "first call newDist:"+newDist+" into initDist:"+initDist);
+        initDist=1;
+        newDist=1;
+
+       // mainView.setOnTouchListener(this);
+      //  mainView.postInvalidate();
 
 
-        mainView.setOnTouchListener(this);
+        //gestureDecoder = new GestureDecoder(mainView);
+
+         //scaleGestureDetector = new ScaleGestureDetector(this, gestureDecoder);
 //        final ViewGroup viewGroup = (ViewGroup) findViewById(R.id.textView2);
-    //   view.setOnTouchListener(this);
+       View parent = (View)mainView.getParent();
+        parent.setOnTouchListener(this);
      //   textView.setOnTouchListener(this);
 }
 
-    float initDist = 1f;
+    float initDist;
 
-    public boolean onTouch(View aView, MotionEvent anEvent){
+    @Override
+    public boolean onTouch(View zoomView, MotionEvent anEvent){
                  /*
         *
         mainView.setPivotX(pivot.x);
@@ -92,6 +106,7 @@ public class Touch extends Activity implements OnTouchListener, ScaleGestureDete
 
             case MotionEvent.ACTION_DOWN: //first finger down only
                 //savedMatrix.set(matrix);        //overwrite
+                Log.d(TAG, "mainViewScaleX:"+mainView.getScaleX());
                 start.set(anEvent.getX(), anEvent.getY());    //getting position
                // aView.setPivotX(start.x);     //setzt sofort den punkt der view
                // aView.setPivotY(start.y);   anEvent.getX()   anEvent.getY()
@@ -101,19 +116,23 @@ public class Touch extends Activity implements OnTouchListener, ScaleGestureDete
                 mode = DRAG;
                 break;
             case MotionEvent.ACTION_UP: //first finger lifted
+                break;
             case MotionEvent.ACTION_POINTER_UP: //second finger lifted
+                Log.d(TAG, "write newDist:"+newDist+" into initDist:"+initDist);
+                if(newDist!=1)
+                initDist = newDist;
                 mode = NONE;
-                Log.d(TAG, "mode=NONE" );
+                Log.d(TAG, "mode=NONE");
                 break;
             case MotionEvent.ACTION_POINTER_DOWN: //second finger down
                 initDist = spacing(anEvent);
-
+                Log.d(TAG, "mainViewScaleX:"+mainView.getScaleX());
                 //oldDist = spacing(anEvent); // calculates the distance between two points where user touched.
                 //Log.d(TAG, "oldDist=" + oldDist);
                 // minimal distance between both the fingers
                 //if (oldDist > 5f) {
                    // savedMatrix.set(matrix); //overwrite current matrix ()
-                    midPoint(mid, anEvent); // sets the mid-point of the straight line between two points where user touched.
+                  //  midPoint(mid, anEvent); // sets the mid-point of the straight line between two points where user touched.
                     mode = ZOOM;
                    // Log.d(TAG, "mode=ZOOM" );
                // }
@@ -123,23 +142,23 @@ public class Touch extends Activity implements OnTouchListener, ScaleGestureDete
                 if (mode == DRAG)
                 { //movement of first finger
                    // matrix.set(savedMatrix);
-                    if (aView.getLeft() >= -392)
+                    if (mainView.getLeft() >= -392)
                     {
                         //matrix.postTranslate(anEvent.getX() - start.x, anEvent.getY() - start.y);
                         //aView.setPivotX(anEvent.getX());
                         //jöaView.setPivotY(anEvent.getY());
                         float newX = anEvent.getX();
                         float newY = anEvent.getY();
-                        Log.d(TAG, "mode=DRAG:newX:"+newX +" VIEW-TRANSLATION:"+ aView.getTranslationX());
-                        Log.d(TAG, "mode=DRAG:newY:"+newY +" VIEW-TRANSLATION:"+ aView.getTranslationY());
+                        Log.d(TAG, "mode=DRAG:newX:"+newX +" VIEW-TRANSLATION:"+ zoomView.getTranslationX());
+                        Log.d(TAG, "mode=DRAG:newY:"+newY +" VIEW-TRANSLATION:"+ zoomView.getTranslationY());
 
                         float latency = 10f;
 
                         float distanceX = (start.x-newX)/latency;
                         float distanceY = (start.y-newY)/latency;
 
-                        aView.setTranslationX(aView.getTranslationX() - distanceX);
-                        aView.setTranslationY(aView.getTranslationY() - distanceY);
+                        mainView.setTranslationX(mainView.getTranslationX() - distanceX);
+                        mainView.setTranslationY(mainView.getTranslationY() - distanceY);
 
                         //aView.setPivotY(newY);
                     }
@@ -147,12 +166,28 @@ public class Touch extends Activity implements OnTouchListener, ScaleGestureDete
                 else if (mode == ZOOM) { //pinch zooming
                     //float newDist = spacing(anEvent);
                     float newDist = spacing(anEvent);
+                    Log.d(TAG, "newDist = "+ newDist);
+
+
+                    if(newDist>initDist+5f || newDist<initDist-5f){
 
                     float factor = newDist/ initDist ;
 
+                    if(newDist > initDist)//pinch open --> zoom in
+                    {
+                       scaleFactor = scaleFactor + factor;
+                    }
+                    if(newDist < initDist)//pinch close --> zoom out
+                    {
+                       scaleFactor = scaleFactor - factor;
+                    }
+                    scaleFactor = scaleFactor/3; // make scale slower
+
                     //float x = anEvent.getX(0) - anEvent.getX(1);
-                    //float y = anEvent.getY(0) - anEvent.getY(1);
-                    Log.d(TAG, "initDist = " + initDist+" newDist = " +newDist +" Pointer1:"+ anEvent.getX(0) +" Pointer2:"+anEvent.getX(1));
+                    //float y = anEvent.getY(0) - anEvent.getY(
+                    Log.d(TAG, "mode=zoom initDist = " + initDist+" newDist = " +newDist +" Pointer1:"+ anEvent.getX(0) +" Pointer2:"+anEvent.getX(1));
+                    Log.d(TAG, "mode=zoom x=" + mainView.getX() +" y=" + mainView.getY());
+
                     Log.d(TAG, "Factor Zoom = "+ (float)factor);
 
                     //if (factor > 5d) {
@@ -161,12 +196,23 @@ public class Touch extends Activity implements OnTouchListener, ScaleGestureDete
                        // matrix.postScale(factor, factor, mid.x, mid.y);
                         //Log.d(TAG, "scale=" + scale);
 
-                    ViewGroup.LayoutParams layoutParams = aView.getLayoutParams();
-                    layoutParams
-                        aView.setScaleX((float) factor);
-                        aView.setScaleY((float)factor);
+                    //ViewGroup.LayoutParams layoutParams = zoomView.getLayoutParams();
+
+                    //zoomView.setFactor(factor);
+                    //zoomView.setOrientation(start);
+
+                    /*aView.setScaleX((float) factor);
+                    aView.setScaleY((float)factor);
                                       aView.invalidate();
-                   // }
+*/                   // }
+                   // scaleFactor = factor;
+                   // gestureDecoder.scaleFactor=scaleFactor;
+                   // scaleGestureDetector.onTouchEvent(anEvent);
+                    //mainView.setPivotX(start.x);
+                    //mainView.setPivotY(start.y);
+                    mainView.setScaleX(scaleFactor);
+                    mainView.setScaleY(scaleFactor);
+                    }
                 }
                 break;
         }
@@ -175,7 +221,49 @@ public class Touch extends Activity implements OnTouchListener, ScaleGestureDete
         return true;
     }
 
-    public boolean onTouchTwo(View v, MotionEvent event) {
+    PointF oldDistPoint = new PointF();
+    float scaleFactor;
+    View scaleView;
+    float newDist;
+
+    private float spacing(MotionEvent event) {
+        float x = event.getX(0) - event.getX(1);
+        float y = event.getY(0) - event.getY(1);
+        return FloatMath.sqrt(x * x + y * y);
+    }
+
+    private double distBetween(MotionEvent event){
+        return Math.sqrt(Math.pow(event.getX(0) - event.getX(1),2d) + Math.pow(event.getY(1) - event.getY(0),2d));
+
+    }
+
+    private void midPoint(PointF point, MotionEvent event) {
+        float x = event.getX(0) + event.getX(1);
+        float y = event.getY(0) + event.getY(1);
+        point.set(x / 2, y / 2);
+    }
+
+    private PointF spacingPoint(MotionEvent event) {
+        PointF f = new PointF();
+        f.x = event.getX(0) - event.getX(1);
+        f.y = event.getY(0) - event.getY(1);
+        return f;
+    }
+
+    /**
+     * zooming is done from here
+     */
+    public void zoom(Float scaleX, Float scaleY, PointF pivot) {
+        mainView.setPivotX(pivot.x);
+        mainView.setPivotY(pivot.y);
+        mainView.setScaleX(scaleX);
+        mainView.setScaleY(scaleY);
+    }
+
+
+
+
+ /*   public boolean onTouchTwo(View v, MotionEvent event) {
 
         ImageView view = (ImageView) v;
         // make the image scalable as a matrix
@@ -235,39 +323,54 @@ public class Touch extends Activity implements OnTouchListener, ScaleGestureDete
         view.setImageMatrix(matrix);
 
         return true; // indicate event was handled
-    }
+    }                  */
 
-    private float spacing(MotionEvent event) {
-        float x = event.getX(0) - event.getX(1);
-        float y = event.getY(0) - event.getY(1);
-        return FloatMath.sqrt(x * x + y * y);
-    }
 
-    private double distBetween(MotionEvent event){
-        return Math.sqrt(Math.pow(event.getX(0) - event.getX(1),2d) + Math.pow(event.getY(1) - event.getY(0),2d));
+   // @Override
+  /*  public boolean onTouchThree(View scaleView, MotionEvent event) {
+        Log.d(TAG, "mode=DRAG");
+        switch (event.getAction() & MotionEvent.ACTION_MASK) {
+            case MotionEvent.ACTION_DOWN:
+                start.set(event.getX(), event.getY());
+                Log.d(TAG, "mode=DRAG");
+                mode = DRAG;
 
-    }
+                break;
+            case MotionEvent.ACTION_POINTER_DOWN:
+                oldDist = spacing(event);
+                oldDistPoint = spacingPoint(event);
+                Log.d(TAG, "oldDist=" + oldDist);
+                if (oldDist > 10f) {
+                    midPoint(mid, event);
+                    mode = ZOOM;
+                    Log.d(TAG, "mode=ZOOM");
+                }
+                System.out.println("current time :" + System.currentTimeMillis());
+                break;// return !gestureDetector.onTouchEvent(event);
+            case MotionEvent.ACTION_UP:
+            case MotionEvent.ACTION_POINTER_UP:
+                Log.d(TAG, "mode=NONE");
+                mode = NONE;
+                break;
+            case MotionEvent.ACTION_MOVE:
+                if (mode == DRAG) {
 
-    private void midPoint(PointF point, MotionEvent event) {
-        float x = event.getX(0) + event.getX(1);
-        float y = event.getY(0) + event.getY(1);
-        point.set(x / 2, y / 2);
-    }
-
-    @Override
-    public boolean onScale(ScaleGestureDetector detector) {
-        scaleFactor *= detector.getScaleFactor();  // class variable of type float
-        if (scaleFactor > 5) scaleFactor = 5;      // some limitations
-        if (scaleFactor < 1) scaleFactor = 1;
+                } else if (mode == ZOOM) {
+                    PointF newDist = spacingPoint(event);
+                    float newD = spacing(event);
+                    Log.e(TAG, "newDist=" + newDist);
+                    float[] old = new float[9];
+                    float[] newm = new float[9];
+                    Log.e(TAG, "x=" + old[0] + ":&:" + old[2]);
+                    Log.e(TAG, "y=" + old[4] + ":&:" + old[5]);
+                    float scale = newD / oldDist;
+                    float scalex = newDist.x / oldDistPoint.x;
+                    float scaley = newDist.y / oldDistPoint.y;
+                    //zoom(scale, scale, start);
+                }
+                break;
+        }
         return true;
-    }
+    }                    */
 
-    @Override
-    public boolean onScaleBegin(ScaleGestureDetector detector) {
-        return true;  //To change body of implemented methods use File | Settings | File Templates.
-    }
-
-    @Override
-    public void onScaleEnd(ScaleGestureDetector detector) {
-        setScaleX(scaleFactor); setScaleY(scaleFactor);     }
 }

@@ -17,28 +17,12 @@ import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-/**
- *
- <FrameLayout
- xmlns:android="http://schemas.android.com/apk/res/android"
- android:layout_width="fill_parent"
- android:layout_height="fill_parent" >
- <ImageView android:id="@+id/imageView"
- android:layout_width="fill_parent"
- android:layout_height="fill_parent"
- android:src="@drawable/nature"
- android:scaleType="matrix" >
- </ImageView>
- </FrameLayout>
- */
 
 
 public class Touch extends Activity implements OnTouchListener {
     private static final String TAG = "Touch";
 
     // These matrices will be used to move and zoom image
-    Matrix matrix = new Matrix();
-    Matrix savedMatrix = new Matrix();
 
     // We can be in one of these 3 states
     static final int NONE = 0;
@@ -46,25 +30,29 @@ public class Touch extends Activity implements OnTouchListener {
     static final int ZOOM = 2;
     int mode = NONE;
 
+    View view1;
+    View view2;
+
     // Remember some things for zooming
     PointF start = new PointF();
-    //PointF mid = new PointF();
-    float oldDist = 0f;
-    GestureDecoder gestureDecoder;
-    ScaleGestureDetector scaleGestureDetector;
-    View mainView;
 
+    View mainView;
+    private float maxScale = 4f;
+    private float minScale = 0.1f;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sec);
         TextView textView = (TextView) findViewById(R.id.textView2);
-
-
         textView.setText("test TEXT BLAB BALB BLAdddddd!!!!!!");
+        view1 = textView;
+
+        TextView textView2 = (TextView) findViewById(R.id.textView2_2);
+        textView2.setText("not ZOOMABLE!!!");
 
         ImageView view = (ImageView) findViewById(R.id.imageView);
         view.setScaleType(ImageView.ScaleType.FIT_CENTER); // make the image fit to the center.
+        view2= view;
 
         mainView  = findViewById(android.R.id.content);
 
@@ -122,9 +110,12 @@ public class Touch extends Activity implements OnTouchListener {
                         float distanceX = (start.x-newX)/latency;
                         float distanceY = (start.y-newY)/latency;
 
-                        mainView.setTranslationX(mainView.getTranslationX() - distanceX);
-                        mainView.setTranslationY(mainView.getTranslationY() - distanceY);
-
+                        //mainView.setTranslationX(mainView.getTranslationX() - distanceX);
+                        //mainView.setTranslationY(mainView.getTranslationY() - distanceY);
+                        view1.setTranslationX(mainView.getTranslationX() - distanceX);
+                        view1.setTranslationY(mainView.getTranslationY() - distanceY);
+                        view2.setTranslationX(mainView.getTranslationX() - distanceX);
+                        view2.setTranslationY(mainView.getTranslationY() - distanceY);
                     }
                 }
                 else if (mode == ZOOM) { //pinch zooming
@@ -134,22 +125,28 @@ public class Touch extends Activity implements OnTouchListener {
                     if(newDist>initDist+5f || newDist<initDist-5f){
 
                     float factor = newDist/ initDist ;
-                    factor = factor /10; //latency
                     Log.d(TAG, "*******ViewSCALE = "+mainView.getScaleX());
                     Log.d(TAG, "*******factor = "+ factor);
 
-                        if(newDist > initDist)//pinch open --> zoom in
+                        if(newDist > initDist && scaleFactor < maxScale)//pinch open --> zoom in
                     {
-                       scaleFactor = scaleFactor + factor;
+                        factor = factor /10; //latency
+                        scaleFactor = scaleFactor + factor;
                         Log.d(TAG, "*******scaleFactor = "+ scaleFactor);
                     }
-                    if(newDist < initDist)//pinch close --> zoom out
+                    if(newDist < initDist && scaleFactor>minScale && factor < scaleFactor)//pinch close --> zoom out
                     {
-                       scaleFactor = scaleFactor - factor;
+                        factor = factor /2; //latency
+                        scaleFactor = scaleFactor - factor;
                     }
                    // scaleFactor = scaleFactor; // make scale slower
-                    mainView.setScaleX(scaleFactor);
-                    mainView.setScaleY(scaleFactor);
+                    //mainView.setScaleX(scaleFactor);
+                    //mainView.setScaleY(scaleFactor);
+                        view1.setScaleX(scaleFactor);
+                        view1.setScaleY(scaleFactor);
+                        view2.setScaleX(scaleFactor);
+                        view2.setScaleY(scaleFactor);
+
                     }
                 }
                 break;
